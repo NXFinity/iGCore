@@ -3,17 +3,15 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './api/users/users.module';
 import { AuthModule } from './security/auth/auth.module';
-// Schema Validation
 import * as Joi from 'joi';
-// Core Config Files
-import databaseConfig from './configs/core/database.config';
+import { AuthGuard } from './security/guards/auth.guard';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env'],
-      load: [databaseConfig],
+      load: [],
       cache: true,
       expandVariables: true,
       validationSchema: Joi.object({
@@ -24,10 +22,10 @@ import databaseConfig from './configs/core/database.config';
       }),
     }),
     DatabaseModule,
+    AuthModule, // Ensure AuthModule is imported
     UsersModule,
-    AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [{ provide: 'APP_GUARD', useClass: AuthGuard }],
 })
 export class AppModule {}
