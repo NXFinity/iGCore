@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ApiTags } from '@nestjs/swagger';
-import { UpdateUserDto } from './dto/createUser.dto';
 import { Public } from 'src/security/decorators/public.decorator';
 
 @ApiTags('User Management')
